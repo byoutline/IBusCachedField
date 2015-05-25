@@ -1,4 +1,4 @@
-package com.byoutline.ottocachedfield.events;
+package com.byoutline.ibuscachedfield.events;
 
 /**
  * Simple implementation of {@link ResponseEventWithArg} that contains only getters and setter.

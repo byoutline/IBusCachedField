@@ -1,19 +1,19 @@
-package com.byoutline.ottocachedfield.internal;
+package com.byoutline.ibuscachedfield.internal;
 
 import com.byoutline.cachedfield.ErrorListener;
-import com.squareup.otto.Bus;
+import com.byoutline.eventcallback.IBus;
 
 import javax.annotation.Nonnull;
 
 /**
  * @author Sebastian Kacprzak <sebastian.kacprzak at byoutline.com>
  */
-public class OttoErrorListener implements ErrorListener {
+public class IBusErrorListener implements ErrorListener {
 
-    private final Bus bus;
+    private final IBus bus;
     private final ErrorEvent event;
 
-    public OttoErrorListener(@Nonnull Bus bus, @Nonnull ErrorEvent event) {
+    public IBusErrorListener(@Nonnull IBus bus, @Nonnull ErrorEvent event) {
         this.bus = bus;
         this.event = event;
     }

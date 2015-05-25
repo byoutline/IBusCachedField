@@ -1,6 +1,6 @@
 package com.byoutline.ottocachedfield
 
-import com.byoutline.ottocachedfield.events.ResponseEventWithArgImpl
+import com.byoutline.ibuscachedfield.events.ResponseEventWithArgImpl
 import spock.lang.Unroll
 
 /**

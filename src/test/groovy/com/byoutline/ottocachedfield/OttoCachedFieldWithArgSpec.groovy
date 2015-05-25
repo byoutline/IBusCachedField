@@ -3,7 +3,7 @@ package com.byoutline.ottocachedfield
 import com.byoutline.cachedfield.CachedFieldWithArg
 import com.byoutline.cachedfield.FieldState
 import com.byoutline.cachedfield.FieldStateListener
-import com.byoutline.ottocachedfield.events.ResponseEventWithArg
+import com.byoutline.ibuscachedfield.events.ResponseEventWithArg
 import com.squareup.otto.Bus
 import spock.lang.Shared
 import spock.lang.Unroll

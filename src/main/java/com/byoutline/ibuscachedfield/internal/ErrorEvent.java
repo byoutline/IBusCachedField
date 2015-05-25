@@ -1,7 +1,7 @@
-package com.byoutline.ottocachedfield.internal;
+package com.byoutline.ibuscachedfield.internal;
 
+import com.byoutline.eventcallback.IBus;
 import com.byoutline.eventcallback.ResponseEvent;
-import com.squareup.otto.Bus;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -28,7 +28,7 @@ public class ErrorEvent {
         return new ErrorEvent(null, event);
     }
 
-    public void post(@Nonnull Bus bus, Exception ex) {
+    public void post(@Nonnull IBus bus, Exception ex) {
         if (responseEvent != null) {
             responseEvent.setResponse(ex);
             bus.post(responseEvent);
