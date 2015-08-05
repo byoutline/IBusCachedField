@@ -13,10 +13,11 @@ import java.util.concurrent.ExecutorService;
  * Fluent interface builder of {@link CachedField}.
  *
  * @param <RETURN_TYPE> Type of object to be cached.
+ * @param <ARG_TYPE>    Type of argument that needs to be passed to calculate value.
  * @param <BUS>         Type of bus that will be used to post events.
  * @author Sebastian Kacprzak <sebastian.kacprzak at byoutline.com>
  */
-public abstract class IBusCachedFieldBuilder<RETURN_TYPE, BUS> {
+public abstract class IBusCachedFieldWithArgBuilder<RETURN_TYPE, ARG_TYPE, BUS> {
 
     private final CachedFieldConstructorWrapper<RETURN_TYPE, BUS> constructorWrapper;
     private Provider<RETURN_TYPE> valueGetter;
@@ -27,11 +28,11 @@ public abstract class IBusCachedFieldBuilder<RETURN_TYPE, BUS> {
     private ExecutorService valueGetterExecutor;
     private Executor stateListenerExecutor;
 
-    public IBusCachedFieldBuilder(CachedFieldConstructorWrapper<RETURN_TYPE, BUS> constructorWrapper,
-                                  BUS defaultBus,
-                                  Provider<String> defaultSessionIdProvider,
-                                  ExecutorService defaultValueGetterExecutor,
-                                  Executor defaultStateListenerExecutor) {
+    public IBusCachedFieldWithArgBuilder(CachedFieldConstructorWrapper<RETURN_TYPE, BUS> constructorWrapper,
+                                         BUS defaultBus,
+                                         Provider<String> defaultSessionIdProvider,
+                                         ExecutorService defaultValueGetterExecutor,
+                                         Executor defaultStateListenerExecutor) {
         this.constructorWrapper = constructorWrapper;
         bus = defaultBus;
         sessionIdProvider = defaultSessionIdProvider;
@@ -50,7 +51,7 @@ public abstract class IBusCachedFieldBuilder<RETURN_TYPE, BUS> {
         }
 
         public ErrorEventSetter withSuccessEvent(ResponseEvent<RETURN_TYPE> successEvent) {
-            IBusCachedFieldBuilder.this.successEvent = successEvent;
+            IBusCachedFieldWithArgBuilder.this.successEvent = successEvent;
             return new ErrorEventSetter();
         }
     }
@@ -61,18 +62,18 @@ public abstract class IBusCachedFieldBuilder<RETURN_TYPE, BUS> {
         }
 
         public OverrideDefaultsSetter withGenericErrorEvent(Object errorEvent) {
-            IBusCachedFieldBuilder.this.errorEvent = ErrorEvent.genericEvent(errorEvent);
+            IBusCachedFieldWithArgBuilder.this.errorEvent = ErrorEvent.genericEvent(errorEvent);
             return new OverrideDefaultsSetter();
         }
 
         public OverrideDefaultsSetter withResponseErrorEvent(ResponseEvent<Exception> errorEvent) {
-            IBusCachedFieldBuilder.this.errorEvent = ErrorEvent.responseEvent(errorEvent);
+            IBusCachedFieldWithArgBuilder.this.errorEvent = ErrorEvent.responseEvent(errorEvent);
             return new OverrideDefaultsSetter();
         }
 
         public CachedField<RETURN_TYPE> build() {
-            IBusCachedFieldBuilder.this.errorEvent = new ErrorEvent(null, null);
-            return IBusCachedFieldBuilder.this.build();
+            IBusCachedFieldWithArgBuilder.this.errorEvent = new ErrorEvent(null, null);
+            return IBusCachedFieldWithArgBuilder.this.build();
         }
     }
 
@@ -82,27 +83,27 @@ public abstract class IBusCachedFieldBuilder<RETURN_TYPE, BUS> {
         }
 
         public OverrideDefaultsSetter withCustomSessionIdProvider(Provider<String> sessionIdProvider) {
-            IBusCachedFieldBuilder.this.sessionIdProvider = sessionIdProvider;
+            IBusCachedFieldWithArgBuilder.this.sessionIdProvider = sessionIdProvider;
             return this;
         }
 
         public OverrideDefaultsSetter withCustomBus(BUS bus) {
-            IBusCachedFieldBuilder.this.bus = bus;
+            IBusCachedFieldWithArgBuilder.this.bus = bus;
             return this;
         }
 
         public OverrideDefaultsSetter withCustomValueGetterExecutor(ExecutorService valueGetterExecutor) {
-            IBusCachedFieldBuilder.this.valueGetterExecutor = valueGetterExecutor;
+            IBusCachedFieldWithArgBuilder.this.valueGetterExecutor = valueGetterExecutor;
             return this;
         }
 
         public OverrideDefaultsSetter withCustomStateListenerExecutor(Executor stateListenerExecutor) {
-            IBusCachedFieldBuilder.this.stateListenerExecutor = stateListenerExecutor;
+            IBusCachedFieldWithArgBuilder.this.stateListenerExecutor = stateListenerExecutor;
             return this;
         }
 
         public CachedField<RETURN_TYPE> build() {
-            return IBusCachedFieldBuilder.this.build();
+            return IBusCachedFieldWithArgBuilder.this.build();
         }
     }
 
@@ -112,7 +113,7 @@ public abstract class IBusCachedFieldBuilder<RETURN_TYPE, BUS> {
         }
 
         public CachedField<RETURN_TYPE> build() {
-            return IBusCachedFieldBuilder.this.build();
+            return IBusCachedFieldWithArgBuilder.this.build();
         }
     }
 
