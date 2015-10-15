@@ -116,7 +116,7 @@ public abstract class IBusCachedFieldBuilder<RETURN_TYPE, BUS> {
         }
     }
 
-    private CachedField<RETURN_TYPE> build() {
+    protected CachedField<RETURN_TYPE> build() {
         return constructorWrapper.build(sessionIdProvider, valueGetter, successEvent, errorEvent, bus,
                 valueGetterExecutor, stateListenerExecutor);
     }

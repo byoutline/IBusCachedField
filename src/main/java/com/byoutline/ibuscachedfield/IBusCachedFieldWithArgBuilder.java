@@ -102,6 +102,7 @@ public abstract class IBusCachedFieldWithArgBuilder<RETURN_TYPE, ARG_TYPE, BUS> 
             return IBusCachedFieldWithArgBuilder.this.build();
         }
     }
+
     public class Builder {
 
         private Builder() {
@@ -112,7 +113,7 @@ public abstract class IBusCachedFieldWithArgBuilder<RETURN_TYPE, ARG_TYPE, BUS> 
         }
     }
 
-    private CachedFieldWithArg<RETURN_TYPE, ARG_TYPE> build() {
+    protected CachedFieldWithArg<RETURN_TYPE, ARG_TYPE> build() {
         return constructorWrapper.build(sessionIdProvider, valueGetter, successEvent, errorEvent, bus,
                 valueGetterExecutor, stateListenerExecutor);
     }
