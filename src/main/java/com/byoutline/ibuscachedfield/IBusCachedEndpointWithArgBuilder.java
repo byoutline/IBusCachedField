@@ -97,7 +97,7 @@ public abstract class IBusCachedEndpointWithArgBuilder<RETURN_TYPE, ARG_TYPE, BU
         }
     }
 
-    private CachedEndpointWithArg<RETURN_TYPE, ARG_TYPE> build() {
+    protected CachedEndpointWithArg<RETURN_TYPE, ARG_TYPE> build() {
         return constructorWrapper.<RETURN_TYPE, ARG_TYPE>build(sessionIdProvider, valueGetter,
                 resultEvent, bus,
                 valueGetterExecutor, stateListenerExecutor);
