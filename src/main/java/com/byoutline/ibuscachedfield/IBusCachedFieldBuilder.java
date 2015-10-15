@@ -27,7 +27,7 @@ public abstract class IBusCachedFieldBuilder<RETURN_TYPE, BUS> {
     private ExecutorService valueGetterExecutor;
     private Executor stateListenerExecutor;
 
-    public IBusCachedFieldBuilder(CachedFieldConstructorWrapper<RETURN_TYPE, BUS> constructorWrapper,
+    protected IBusCachedFieldBuilder(CachedFieldConstructorWrapper<RETURN_TYPE, BUS> constructorWrapper,
                                   BUS defaultBus,
                                   Provider<String> defaultSessionIdProvider,
                                   ExecutorService defaultValueGetterExecutor,
@@ -46,7 +46,7 @@ public abstract class IBusCachedFieldBuilder<RETURN_TYPE, BUS> {
 
     public class SuccessEvent {
 
-        private SuccessEvent() {
+        protected SuccessEvent() {
         }
 
         public ErrorEventSetter withSuccessEvent(ResponseEvent<RETURN_TYPE> successEvent) {
@@ -57,7 +57,7 @@ public abstract class IBusCachedFieldBuilder<RETURN_TYPE, BUS> {
 
     public class ErrorEventSetter {
 
-        private ErrorEventSetter() {
+        protected ErrorEventSetter() {
         }
 
         public OverrideDefaultsSetter withGenericErrorEvent(Object errorEvent) {
@@ -78,7 +78,7 @@ public abstract class IBusCachedFieldBuilder<RETURN_TYPE, BUS> {
 
     public class OverrideDefaultsSetter {
 
-        private OverrideDefaultsSetter() {
+        protected OverrideDefaultsSetter() {
         }
 
         public OverrideDefaultsSetter withCustomSessionIdProvider(Provider<String> sessionIdProvider) {

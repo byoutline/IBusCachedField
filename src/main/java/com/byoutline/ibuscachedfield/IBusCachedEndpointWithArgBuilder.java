@@ -47,7 +47,7 @@ public abstract class IBusCachedEndpointWithArgBuilder<RETURN_TYPE, ARG_TYPE, BU
 
     public class ResultEvent {
 
-        private ResultEvent() {
+        protected ResultEvent() {
         }
 
         public OverrideDefaultsSetter withResultEvent(
@@ -59,7 +59,7 @@ public abstract class IBusCachedEndpointWithArgBuilder<RETURN_TYPE, ARG_TYPE, BU
 
     public class OverrideDefaultsSetter {
 
-        private OverrideDefaultsSetter() {
+        protected OverrideDefaultsSetter() {
         }
 
         public OverrideDefaultsSetter withCustomSessionIdProvider(Provider<String> sessionIdProvider) {
