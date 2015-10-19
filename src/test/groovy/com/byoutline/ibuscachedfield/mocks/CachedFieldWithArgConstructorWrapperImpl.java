@@ -16,7 +16,7 @@ import java.util.concurrent.ExecutorService;
 /**
  * @author Sebastian Kacprzak <sebastian.kacprzak at byoutline.com>
  */
-public class CachedFieldWithArgConstructorWrapperImpl implements CachedFieldWithArgConstructorWrapper<String, Integer, IBus> {
+public class CachedFieldWithArgConstructorWrapperImpl implements CachedFieldWithArgConstructorWrapper<String, Integer, IBus, CachedFieldWithArg<String, Integer>> {
 
     @Override
     public CachedFieldWithArg<String, Integer> build(Provider<String> sessionIdProvider, ProviderWithArg<String, Integer> valueGetter,

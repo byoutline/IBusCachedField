@@ -1,5 +1,6 @@
 package com.byoutline.ibuscachedfield
 
+import com.byoutline.cachedfield.CachedFieldWithArg
 import com.byoutline.cachedfield.ProviderWithArg
 import com.byoutline.cachedfield.internal.DefaultExecutors
 import com.byoutline.eventcallback.IBus
@@ -48,8 +49,8 @@ static ProviderWithArg<String, Integer> getFailingStringGetterWithArg() {
             toString: { "fail provider with arg" }] as ProviderWithArg<String, Integer>
 }
 
-static IBusCachedFieldWithArgBuilder<String, Integer, IBus> fieldWithArgBuilder(IBus bus) {
-    new IBusCachedFieldWithArgBuilder<String, Integer, IBus>(new CachedFieldWithArgConstructorWrapperImpl(), bus,
+static IBusCachedFieldWithArgBuilder<String, Integer, IBus, CachedFieldWithArg<String, Integer>> fieldWithArgBuilder(IBus bus) {
+    new IBusCachedFieldWithArgBuilder<String, Integer, IBus, CachedFieldWithArg<String, Integer>>(new CachedFieldWithArgConstructorWrapperImpl(), bus,
             getSameSessionIdProvider(),
             DefaultExecutors.createDefaultValueGetterExecutor(),
             DefaultExecutors.createDefaultStateListenerExecutor()){}
