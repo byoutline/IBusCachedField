@@ -1,6 +1,5 @@
 package com.byoutline.ibuscachedfield;
 
-import com.byoutline.cachedfield.CachedField;
 import com.byoutline.cachedfield.CachedFieldWithArg;
 import com.byoutline.cachedfield.ProviderWithArg;
 import com.byoutline.ibuscachedfield.builders.CachedFieldWithArgConstructorWrapper;
@@ -12,7 +11,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 
 /**
- * Fluent interface builder of {@link CachedField}.
+ * Fluent interface builder of {@link CachedFieldWithArg}.
  *
  * @param <RETURN_TYPE>  Type of object to be cached.
  * @param <ARG_TYPE>     Type of argument that needs to be passed to calculate value.

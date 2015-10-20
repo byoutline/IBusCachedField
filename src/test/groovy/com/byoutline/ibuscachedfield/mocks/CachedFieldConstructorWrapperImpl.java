@@ -16,7 +16,7 @@ import java.util.concurrent.ExecutorService;
 /**
  * @author Sebastian Kacprzak <sebastian.kacprzak at byoutline.com>
  */
-public class CachedFieldConstructorWrapperImpl implements CachedFieldConstructorWrapper<String, IBus> {
+public class CachedFieldConstructorWrapperImpl implements CachedFieldConstructorWrapper<String, IBus, CachedField<String>> {
     @Override
     public CachedField<String> build(Provider<String> sessionIdProvider, Provider<String> valueGetter,
                                      ResponseEvent<String> successEvent, ErrorEvent errorEvent, IBus iBus,

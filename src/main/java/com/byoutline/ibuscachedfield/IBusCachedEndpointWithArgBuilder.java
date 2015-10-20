@@ -2,8 +2,9 @@ package com.byoutline.ibuscachedfield;
 
 import com.byoutline.cachedfield.ProviderWithArg;
 import com.byoutline.cachedfield.cachedendpoint.CachedEndpointWithArg;
+import com.byoutline.cachedfield.cachedendpoint.CachedEndpointWithArgImpl;
 import com.byoutline.cachedfield.cachedendpoint.StateAndValue;
-import com.byoutline.ibuscachedfield.builders.CachedEndpointWithArgConstructorWrapperBuilder;
+import com.byoutline.ibuscachedfield.builders.CachedEndpointWithArgConstructorWrapper;
 import com.byoutline.ibuscachedfield.events.ResponseEventWithArg;
 
 import javax.inject.Provider;
@@ -11,16 +12,17 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 
 /**
- * Fluent interface for building {@link com.byoutline.cachedfield.cachedendpoint.CachedEndpointWithArgImpl}
+ * Fluent interface for building {@link CachedEndpointWithArgImpl}
  *
- * @param <RETURN_TYPE> Type of object to be cached.
- * @param <ARG_TYPE>    Type of argument that needs to be passed to make an API call.
- * @param <BUS>         Type of bus that will be used to post events.
+ * @param <RETURN_TYPE>     Type of object to be cached.
+ * @param <ARG_TYPE>        Type of argument that needs to be passed to make an API call.
+ * @param <BUS>             Type of bus that will be used to post events.
+ * @param <CACHED_ENDPOINT> Specific type of {@link CachedEndpointWithArg} returned.
  * @author Sebastian Kacprzak <sebastian.kacprzak at byoutline.com>
  */
-public abstract class IBusCachedEndpointWithArgBuilder<RETURN_TYPE, ARG_TYPE, BUS> {
+public abstract class IBusCachedEndpointWithArgBuilder<RETURN_TYPE, ARG_TYPE, BUS, CACHED_ENDPOINT extends CachedEndpointWithArg<RETURN_TYPE, ARG_TYPE>> {
 
-    private final CachedEndpointWithArgConstructorWrapperBuilder<RETURN_TYPE, ARG_TYPE, BUS> constructorWrapper;
+    private final CachedEndpointWithArgConstructorWrapper<RETURN_TYPE, ARG_TYPE, BUS, CACHED_ENDPOINT> constructorWrapper;
     private ProviderWithArg<RETURN_TYPE, ARG_TYPE> valueGetter;
     private ResponseEventWithArg<StateAndValue<RETURN_TYPE, ARG_TYPE>, ARG_TYPE> resultEvent;
     private Provider<String> sessionIdProvider;
@@ -28,7 +30,7 @@ public abstract class IBusCachedEndpointWithArgBuilder<RETURN_TYPE, ARG_TYPE, BU
     private ExecutorService valueGetterExecutor;
     private Executor stateListenerExecutor;
 
-    protected IBusCachedEndpointWithArgBuilder(CachedEndpointWithArgConstructorWrapperBuilder<RETURN_TYPE, ARG_TYPE, BUS> constructorWrapper,
+    protected IBusCachedEndpointWithArgBuilder(CachedEndpointWithArgConstructorWrapper<RETURN_TYPE, ARG_TYPE, BUS, CACHED_ENDPOINT> constructorWrapper,
                                                BUS defaultBus,
                                                Provider<String> defaultSessionIdProvider,
                                                ExecutorService defaultValueGetterExecutor,
@@ -80,16 +82,6 @@ public abstract class IBusCachedEndpointWithArgBuilder<RETURN_TYPE, ARG_TYPE, BU
         public OverrideDefaultsSetter withCustomStateListenerExecutor(Executor stateListenerExecutor) {
             IBusCachedEndpointWithArgBuilder.this.stateListenerExecutor = stateListenerExecutor;
             return this;
-        }
-
-        public CachedEndpointWithArg<RETURN_TYPE, ARG_TYPE> build() {
-            return IBusCachedEndpointWithArgBuilder.this.build();
-        }
-    }
-
-    public class Builder {
-
-        private Builder() {
         }
 
         public CachedEndpointWithArg<RETURN_TYPE, ARG_TYPE> build() {

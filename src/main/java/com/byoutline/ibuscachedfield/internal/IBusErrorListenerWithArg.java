@@ -22,7 +22,7 @@ public class IBusErrorListenerWithArg<ARG_TYPE> implements ErrorListenerWithArg<
 
     @Override
     public void valueLoadingFailed(Exception ex, ARG_TYPE arg) {
-        if(event != null) {
+        if (event != null) {
             event.setResponse(ex, arg);
             bus.post(event);
         }

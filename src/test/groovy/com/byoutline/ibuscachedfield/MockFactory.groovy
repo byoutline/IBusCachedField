@@ -1,7 +1,9 @@
 package com.byoutline.ibuscachedfield
 
+import com.byoutline.cachedfield.CachedField
 import com.byoutline.cachedfield.CachedFieldWithArg
 import com.byoutline.cachedfield.ProviderWithArg
+import com.byoutline.cachedfield.cachedendpoint.CachedEndpointWithArg
 import com.byoutline.cachedfield.internal.DefaultExecutors
 import com.byoutline.eventcallback.IBus
 import com.byoutline.ibuscachedfield.mocks.CachedEndpointWithArgConstructorWrapperImpl
@@ -56,15 +58,15 @@ static IBusCachedFieldWithArgBuilder<String, Integer, IBus, CachedFieldWithArg<S
             DefaultExecutors.createDefaultStateListenerExecutor()){}
 }
 
-static IBusCachedFieldBuilder<String, IBus> fieldWithoutArgBuilder(IBus bus) {
-    new IBusCachedFieldBuilder<String, IBus>(new CachedFieldConstructorWrapperImpl(), bus,
+static IBusCachedFieldBuilder<String, IBus, CachedField<String>> fieldWithoutArgBuilder(IBus bus) {
+    new IBusCachedFieldBuilder<String, IBus, CachedField<String>>(new CachedFieldConstructorWrapperImpl(), bus,
             getSameSessionIdProvider(),
             DefaultExecutors.createDefaultValueGetterExecutor(),
             DefaultExecutors.createDefaultStateListenerExecutor()) {}
 }
 
-static IBusCachedEndpointWithArgBuilder<String, Integer, IBus> endpointWithArgBuilder(IBus bus) {
-    new IBusCachedEndpointWithArgBuilder<String, Integer, IBus>(new CachedEndpointWithArgConstructorWrapperImpl(), bus,
+static IBusCachedEndpointWithArgBuilder<String, Integer, IBus, CachedEndpointWithArg<String, Integer>> endpointWithArgBuilder(IBus bus) {
+    new IBusCachedEndpointWithArgBuilder<String, Integer, IBus, CachedEndpointWithArg<String, Integer>>(new CachedEndpointWithArgConstructorWrapperImpl(), bus,
             getSameSessionIdProvider(),
             DefaultExecutors.createDefaultValueGetterExecutor(),
             DefaultExecutors.createDefaultStateListenerExecutor()) {}
