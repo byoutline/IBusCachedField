@@ -105,16 +105,6 @@ public abstract class IBusCachedFieldWithArgBuilder
         }
     }
 
-    public class Builder {
-
-        private Builder() {
-        }
-
-        public CACHED_FIELD build() {
-            return IBusCachedFieldWithArgBuilder.this.build();
-        }
-    }
-
     protected CACHED_FIELD build() {
         return constructorWrapper.build(sessionIdProvider, valueGetter, successEvent, errorEvent, bus,
                 valueGetterExecutor, stateListenerExecutor);
