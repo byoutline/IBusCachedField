@@ -89,6 +89,19 @@ class PostingToBusCachedFieldWithArgSpec extends spock.lang.Specification {
         errorArg == 2
     }
 
+    def "builder should allow skipping error event"() {
+        given:
+        CachedFieldWithArg field = MockFactory.fieldWithArgBuilder(bus)
+                .withValueProvider(MockFactory.getStringGetter(argToValueMap))
+                .withSuccessEvent(successEvent)
+                .build();
+        when:
+        postAndWaitUntilFieldStopsLoading(field, 3)
+
+        then:
+        0 * errorEvent.setResponse(_, _)
+    }
+
     def "custom bus passed to builder should be used instead of default"() {
         given:
         def sessionProv = { return "custom" } as Provider<String>
