@@ -12,13 +12,14 @@ import java.util.concurrent.ExecutorService;
 /**
  * Fluent interface builder of {@link CachedField}.
  *
- * @param <RETURN_TYPE> Type of object to be cached.
- * @param <BUS>         Type of bus that will be used to post events.
+ * @param <RETURN_TYPE>  Type of object to be cached.
+ * @param <BUS>          Type of bus that will be used to post events.
+ * @param <CACHED_FIELD> Specific type of {@link CachedField} returned.
  * @author Sebastian Kacprzak <sebastian.kacprzak at byoutline.com>
  */
-public abstract class IBusCachedFieldBuilder<RETURN_TYPE, BUS> {
+public abstract class IBusCachedFieldBuilder<RETURN_TYPE, BUS, CACHED_FIELD extends CachedField<RETURN_TYPE>> {
 
-    private final CachedFieldConstructorWrapper<RETURN_TYPE, BUS> constructorWrapper;
+    private final CachedFieldConstructorWrapper<RETURN_TYPE, BUS, CACHED_FIELD> constructorWrapper;
     private Provider<RETURN_TYPE> valueGetter;
     private ResponseEvent<RETURN_TYPE> successEvent;
     private ErrorEvent errorEvent;
@@ -27,11 +28,11 @@ public abstract class IBusCachedFieldBuilder<RETURN_TYPE, BUS> {
     private ExecutorService valueGetterExecutor;
     private Executor stateListenerExecutor;
 
-    protected IBusCachedFieldBuilder(CachedFieldConstructorWrapper<RETURN_TYPE, BUS> constructorWrapper,
-                                  BUS defaultBus,
-                                  Provider<String> defaultSessionIdProvider,
-                                  ExecutorService defaultValueGetterExecutor,
-                                  Executor defaultStateListenerExecutor) {
+    protected IBusCachedFieldBuilder(CachedFieldConstructorWrapper<RETURN_TYPE, BUS, CACHED_FIELD> constructorWrapper,
+                                     BUS defaultBus,
+                                     Provider<String> defaultSessionIdProvider,
+                                     ExecutorService defaultValueGetterExecutor,
+                                     Executor defaultStateListenerExecutor) {
         this.constructorWrapper = constructorWrapper;
         bus = defaultBus;
         sessionIdProvider = defaultSessionIdProvider;
@@ -99,16 +100,6 @@ public abstract class IBusCachedFieldBuilder<RETURN_TYPE, BUS> {
         public OverrideDefaultsSetter withCustomStateListenerExecutor(Executor stateListenerExecutor) {
             IBusCachedFieldBuilder.this.stateListenerExecutor = stateListenerExecutor;
             return this;
-        }
-
-        public CachedField<RETURN_TYPE> build() {
-            return IBusCachedFieldBuilder.this.build();
-        }
-    }
-
-    public class Builder {
-
-        private Builder() {
         }
 
         public CachedField<RETURN_TYPE> build() {

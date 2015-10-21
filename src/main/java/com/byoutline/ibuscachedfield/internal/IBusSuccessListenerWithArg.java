@@ -22,5 +22,5 @@ public final class IBusSuccessListenerWithArg<RETURN_TYPE, ARG_TYPE> implements 
         responseEvent.setResponse(value, arg);
         bus.post(responseEvent);
     }
-    
+
 }

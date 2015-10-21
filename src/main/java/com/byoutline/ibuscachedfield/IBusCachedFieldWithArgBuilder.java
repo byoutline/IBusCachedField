@@ -1,6 +1,5 @@
 package com.byoutline.ibuscachedfield;
 
-import com.byoutline.cachedfield.CachedField;
 import com.byoutline.cachedfield.CachedFieldWithArg;
 import com.byoutline.cachedfield.ProviderWithArg;
 import com.byoutline.ibuscachedfield.builders.CachedFieldWithArgConstructorWrapper;
@@ -12,16 +11,18 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 
 /**
- * Fluent interface builder of {@link CachedField}.
+ * Fluent interface builder of {@link CachedFieldWithArg}.
  *
- * @param <RETURN_TYPE> Type of object to be cached.
- * @param <ARG_TYPE>    Type of argument that needs to be passed to calculate value.
- * @param <BUS>         Type of bus that will be used to post events.
+ * @param <RETURN_TYPE>  Type of object to be cached.
+ * @param <ARG_TYPE>     Type of argument that needs to be passed to calculate value.
+ * @param <BUS>          Type of bus that will be used to post events.
+ * @param <CACHED_FIELD> Specific type of {@link CachedFieldWithArg} returned.
  * @author Sebastian Kacprzak <sebastian.kacprzak at byoutline.com>
  */
-public abstract class IBusCachedFieldWithArgBuilder<RETURN_TYPE, ARG_TYPE, BUS> {
+public abstract class IBusCachedFieldWithArgBuilder
+        <RETURN_TYPE, ARG_TYPE, BUS, CACHED_FIELD extends CachedFieldWithArg<RETURN_TYPE, ARG_TYPE>> {
 
-    private final CachedFieldWithArgConstructorWrapper<RETURN_TYPE, ARG_TYPE, BUS> constructorWrapper;
+    private final CachedFieldWithArgConstructorWrapper<RETURN_TYPE, ARG_TYPE, BUS, CACHED_FIELD> constructorWrapper;
     private ProviderWithArg<RETURN_TYPE, ARG_TYPE> valueGetter;
     private ResponseEventWithArg<RETURN_TYPE, ARG_TYPE> successEvent;
     private ResponseEventWithArg<Exception, ARG_TYPE> errorEvent;
@@ -30,11 +31,11 @@ public abstract class IBusCachedFieldWithArgBuilder<RETURN_TYPE, ARG_TYPE, BUS> 
     private ExecutorService valueGetterExecutor;
     private Executor stateListenerExecutor;
 
-    protected IBusCachedFieldWithArgBuilder(CachedFieldWithArgConstructorWrapper<RETURN_TYPE, ARG_TYPE, BUS> constructorWrapper,
-                                         BUS defaultBus,
-                                         Provider<String> defaultSessionIdProvider,
-                                         ExecutorService defaultValueGetterExecutor,
-                                         Executor defaultStateListenerExecutor) {
+    protected IBusCachedFieldWithArgBuilder(CachedFieldWithArgConstructorWrapper<RETURN_TYPE, ARG_TYPE, BUS, CACHED_FIELD> constructorWrapper,
+                                            BUS defaultBus,
+                                            Provider<String> defaultSessionIdProvider,
+                                            ExecutorService defaultValueGetterExecutor,
+                                            Executor defaultStateListenerExecutor) {
         this.constructorWrapper = constructorWrapper;
         bus = defaultBus;
         sessionIdProvider = defaultSessionIdProvider;
@@ -98,22 +99,12 @@ public abstract class IBusCachedFieldWithArgBuilder<RETURN_TYPE, ARG_TYPE, BUS> 
             return this;
         }
 
-        public CachedFieldWithArg<RETURN_TYPE, ARG_TYPE> build() {
+        public CACHED_FIELD build() {
             return IBusCachedFieldWithArgBuilder.this.build();
         }
     }
 
-    public class Builder {
-
-        private Builder() {
-        }
-
-        public CachedFieldWithArg<RETURN_TYPE, ARG_TYPE> build() {
-            return IBusCachedFieldWithArgBuilder.this.build();
-        }
-    }
-
-    protected CachedFieldWithArg<RETURN_TYPE, ARG_TYPE> build() {
+    protected CACHED_FIELD build() {
         return constructorWrapper.build(sessionIdProvider, valueGetter, successEvent, errorEvent, bus,
                 valueGetterExecutor, stateListenerExecutor);
     }
