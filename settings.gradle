@@ -1,1 +1,4 @@
 rootProject.name = 'IBusCachedField'
+include 'observablecachedfield'
+include 'ibuscachedfield'
+
