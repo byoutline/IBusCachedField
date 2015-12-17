@@ -3,6 +3,9 @@ package com.byoutline.observablecachedfield
 import android.databinding.Observable
 import com.byoutline.cachedfield.internal.DefaultExecutors
 import com.byoutline.eventcallback.IBus
+import com.byoutline.ibuscachedfield.events.ResponseEventWithArg
+import com.byoutline.ibuscachedfield.events.ResponseEventWithArgImpl
+import com.byoutline.ibuscachedfield.internal.NullArgumentException
 import com.byoutline.shadow.ObservableField
 import com.google.common.util.concurrent.MoreExecutors
 import spock.lang.Shared
@@ -47,9 +50,61 @@ public class ObservableCachedFieldWithArgSpec extends spock.lang.Specification {
         'b' | 2
     }
 
-    private <RETURN_TYPE, ARG_TYPE> ObservableCachedFieldWithArgBuilder<RETURN_TYPE, ARG_TYPE> builder() {
+
+    def "should post success value on ibus"() {
+        given:
+        ResponseEventWithArg<String, Integer> successEvent = Mock()
+        def field = builder()
+                .withValueProvider(MockFactory.getStringGetter(argToValueMap))
+                .withSuccessEvent(successEvent)
+                .withResponseErrorEvent(new ResponseEventWithArgImpl<Exception, Integer>())
+                .withCustomValueGetterExecutor(MoreExecutors.newDirectExecutorService())
+                .build();
+        when:
+        field.postValue(1)
+        then:
+        1 * successEvent.setResponse('a', 1)
+    }
+
+    def "should post error value on ibus"() {
+        given:
+        ResponseEventWithArg<Exception, Integer> errorEvent = Mock()
+        def field = builder()
+                .withValueProvider(MockFactory.getFailingStringGetterWithArg())
+                .withSuccessEvent(new ResponseEventWithArgImpl<String, Integer>())
+                .withResponseErrorEvent(errorEvent)
+                .withCustomValueGetterExecutor(MoreExecutors.newDirectExecutorService())
+                .build();
+        when:
+        field.postValue(8)
+        then:
+        1 * errorEvent.setResponse(_, 8)
+    }
+
+    def "builder should not allow null value getter"() {
+        when:
+        builder()
+                .withValueProvider(null)
+                .withoutEvents()
+                .build()
+        then:
+        thrown NullArgumentException
+    }
+
+    def "builder should not allow null state listener executor"() {
+        when:
+        builder()
+                .withValueProvider(MockFactory.getStringGetter(argToValueMap))
+                .withoutEvents()
+                .withCustomStateListenerExecutor(null)
+                .build()
+        then:
+        thrown NullArgumentException
+    }
+
+    private ObservableCachedFieldWithArgBuilder<String, Integer> builder() {
         IBus bus = Mock()
-        return new ObservableCachedFieldWithArgBuilder<RETURN_TYPE, ARG_TYPE>(MockFactory.getSameSessionIdProvider(), bus,
+        return new ObservableCachedFieldWithArgBuilder<String, Integer>(MockFactory.getSameSessionIdProvider(), bus,
                 DefaultExecutors.createDefaultValueGetterExecutor(), DefaultExecutors.createDefaultStateListenerExecutor())
     }
 }

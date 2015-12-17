@@ -13,3 +13,8 @@ static ProviderWithArg<String, Integer> getStringGetter(Map<Integer, String> arg
             toString: { "string getter with arg: " + argToValueMap }
     ] as ProviderWithArg<String, Integer>
 }
+
+static ProviderWithArg<String, Integer> getFailingStringGetterWithArg() {
+    return [get     : { Integer arg -> throw new RuntimeException("E" + arg) },
+            toString: { "fail provider with arg" }] as ProviderWithArg<String, Integer>
+}
