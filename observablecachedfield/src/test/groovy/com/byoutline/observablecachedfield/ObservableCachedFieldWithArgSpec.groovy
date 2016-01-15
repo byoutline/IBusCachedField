@@ -102,9 +102,10 @@ public class ObservableCachedFieldWithArgSpec extends spock.lang.Specification {
         thrown NullArgumentException
     }
 
-    private ObservableCachedFieldWithArgBuilder<String, Integer> builder() {
+    private ObservableCachedFieldWithArgBuilder<String, Integer, IBus> builder() {
         IBus bus = Mock()
-        return new ObservableCachedFieldWithArgBuilder<String, Integer>(MockFactory.getSameSessionIdProvider(), bus,
+        def busConverter = { b -> b } as ObservableCachedFieldWithArgBuilder.BusConverter<IBus>
+        return new ObservableCachedFieldWithArgBuilder<String, Integer, IBus>(MockFactory.getSameSessionIdProvider(), bus, busConverter,
                 DefaultExecutors.createDefaultValueGetterExecutor(), DefaultExecutors.createDefaultStateListenerExecutor())
     }
 }

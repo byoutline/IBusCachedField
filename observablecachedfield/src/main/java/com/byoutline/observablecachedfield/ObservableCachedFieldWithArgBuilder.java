@@ -21,24 +21,35 @@ import java.util.concurrent.ExecutorService;
  * @param <ARG_TYPE>    Type of argument that needs to be passed to calculate value.
  * @author Sebastian Kacprzak <sebastian.kacprzak at byoutline.com>
  */
-public class ObservableCachedFieldWithArgBuilder<RETURN_TYPE, ARG_TYPE>
-        extends IBusCachedFieldWithArgBuilder<RETURN_TYPE, ARG_TYPE, IBus, ObservableCachedFieldWithArg<RETURN_TYPE, ARG_TYPE>> {
-    protected ObservableCachedFieldWithArgBuilder(Provider<String> sessionIdProvider, IBus bus,
+public class ObservableCachedFieldWithArgBuilder<RETURN_TYPE, ARG_TYPE, BUS>
+        extends IBusCachedFieldWithArgBuilder<RETURN_TYPE, ARG_TYPE, BUS, ObservableCachedFieldWithArg<RETURN_TYPE, ARG_TYPE>> {
+    protected ObservableCachedFieldWithArgBuilder(Provider<String> sessionIdProvider,
+                                                  BUS bus, BusConverter<BUS> busConverter,
                                                   ExecutorService valueGetterExecutor, Executor stateListenerExecutor) {
-        super(new ConstructorWrapper<RETURN_TYPE, ARG_TYPE>(),
+        super(new ConstructorWrapper<RETURN_TYPE, ARG_TYPE, BUS>(busConverter),
                 bus,
                 sessionIdProvider,
                 valueGetterExecutor,
                 stateListenerExecutor);
     }
 
-    private static class ConstructorWrapper<RETURN_TYPE, ARG_TYPE> implements CachedFieldWithArgConstructorWrapper<RETURN_TYPE, ARG_TYPE, IBus, ObservableCachedFieldWithArg<RETURN_TYPE, ARG_TYPE>> {
+    protected interface BusConverter<BUS> {
+        IBus convert(BUS bus);
+    }
+
+    private static class ConstructorWrapper<RETURN_TYPE, ARG_TYPE, BUS> implements CachedFieldWithArgConstructorWrapper<RETURN_TYPE, ARG_TYPE, BUS, ObservableCachedFieldWithArg<RETURN_TYPE, ARG_TYPE>> {
+        private final BusConverter<BUS> busConverter;
+
+        private ConstructorWrapper(BusConverter<BUS> busConverter) {
+            this.busConverter = busConverter;
+        }
+
         @Override
         public ObservableCachedFieldWithArg<RETURN_TYPE, ARG_TYPE> build(Provider<String> sessionIdProvider,
                                                                          ProviderWithArg<RETURN_TYPE, ARG_TYPE> valueGetter,
                                                                          ResponseEventWithArg<RETURN_TYPE, ARG_TYPE> successEvent,
                                                                          ResponseEventWithArg<Exception, ARG_TYPE> errorEvent,
-                                                                         IBus iBus,
+                                                                         BUS bus,
                                                                          ExecutorService valueGetterExecutor,
                                                                          Executor stateListenerExecutor) {
             if (stateListenerExecutor == null || valueGetter == null) {
@@ -53,6 +64,7 @@ public class ObservableCachedFieldWithArgBuilder<RETURN_TYPE, ARG_TYPE>
                 additionalSuccessListener = new StubSuccessListenerWithArg<RETURN_TYPE, ARG_TYPE>();
                 additionalErrorListener = new StubErrorListenerWithArg<ARG_TYPE>();
             } else {
+                IBus iBus = busConverter.convert(bus);
                 additionalSuccessListener = new IBusSuccessListenerWithArg<RETURN_TYPE, ARG_TYPE>(iBus, successEvent);
                 additionalErrorListener = new IBusErrorListenerWithArg<ARG_TYPE>(iBus, errorEvent);
             }
