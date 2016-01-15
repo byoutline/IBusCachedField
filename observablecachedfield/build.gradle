@@ -17,12 +17,11 @@ buildscript {
 repositories {
 //    mavenCentral()
     maven { url "https://jcenter.bintray.com/" }
-    maven { url "http://oss.sonatype.org/content/repositories/snapshots/" }
 }
 
 dependencies {
     compile 'com.google.code.findbugs:jsr305:3.0.0'
-    compile 'com.byoutline.ibuscachedfield:ibuscachedfield:1.0.5-SNAPSHOT'
+    compile 'com.byoutline.ibuscachedfield:ibuscachedfield:1.0.5'
     compile 'javax.inject:javax.inject:1'
     provided 'com.squareup.retrofit2:retrofit:2.0.0-beta3'
     provided 'com.squareup.okhttp3:okhttp:3.0.1'
