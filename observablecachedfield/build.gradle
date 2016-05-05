@@ -16,23 +16,14 @@ repositories {
 
 dependencies {
     compile 'com.google.code.findbugs:jsr305:3.0.0'
-    compile 'com.byoutline.ibuscachedfield:ibuscachedfield:1.0.5'
+    compile 'com.byoutline.ibuscachedfield:ibuscachedfield:1.1.0'
     compile 'javax.inject:javax.inject:1'
     provided 'com.squareup.okhttp3:okhttp:3.0.1'
-    provided 'com.android.databinding:baseLibrary:1.0-rc5'
-    provided files('/home/sebastian/projects/IBusCachedFieldNew/observablecachedfield/libs/binding-library-1.1.jar')
-    testCompile 'com.android.databinding:baseLibrary:1.0-rc5'
-    testCompile files('/home/sebastian/projects/IBusCachedFieldNew/observablecachedfield/libs/binding-library-1.1.jar')
+    provided 'com.android.databinding:baseLibrary:1.1'
+    provided files('libs/binding-library-1.1.jar')
+    testCompile 'com.android.databinding:baseLibrary:1.1'
+    testCompile files('libs/binding-library-1.1.jar')
     testCompile 'com.google.guava:guava:18.0'
-}
-
-// Ignore coverage of google classes.
-jacocoTestReport {
-    afterEvaluate {
-        classDirectories = files(classDirectories.files.collect {
-            fileTree(dir: it, exclude: 'com/byoutline/shadow/**')
-        })
-    }
 }
 
 apply from: '../gradle/maven-push.gradle'
