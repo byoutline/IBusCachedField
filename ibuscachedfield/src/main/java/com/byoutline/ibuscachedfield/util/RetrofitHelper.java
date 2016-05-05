@@ -1,4 +1,4 @@
-package com.byoutline.observablecachedfield;
+package com.byoutline.ibuscachedfield.util;
 
 import com.byoutline.cachedfield.ProviderWithArg;
 import okhttp3.ResponseBody;
@@ -77,7 +77,6 @@ public class RetrofitHelper {
     private static void logError(Exception error) {
         String locMsg = error.getLocalizedMessage();
         logError(locMsg);
-//        Timber.e("Api call failed", error.getCause());
     }
 
     private static void logError(String locMsg) {
