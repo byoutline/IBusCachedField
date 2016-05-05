@@ -1,12 +1,12 @@
 package com.byoutline.observablecachedfield
 
 import android.databinding.Observable
+import android.databinding.ObservableField
 import com.byoutline.cachedfield.internal.DefaultExecutors
 import com.byoutline.eventcallback.IBus
 import com.byoutline.ibuscachedfield.events.ResponseEventWithArg
 import com.byoutline.ibuscachedfield.events.ResponseEventWithArgImpl
 import com.byoutline.ibuscachedfield.internal.NullArgumentException
-import com.byoutline.shadow.ObservableField
 import com.google.common.util.concurrent.MoreExecutors
 import spock.lang.Shared
 import spock.lang.Unroll

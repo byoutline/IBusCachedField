@@ -1,4 +1,4 @@
-package com.byoutline.observablecachedfield;
+package com.byoutline.ibuscachedfield.util;
 
 import com.byoutline.cachedfield.ProviderWithArg;
 import okhttp3.ResponseBody;
@@ -12,6 +12,9 @@ import java.io.IOException;
 
 
 /**
+ * Contains helper methods that allow for use of <code>Retrofit 2</code> with
+ * CachedField with shorter syntax.
+ *
  * @author Sebastian Kacprzak <sebastian.kacprzak at byoutline.com>
  */
 public class RetrofitHelper {
@@ -25,7 +28,7 @@ public class RetrofitHelper {
             public RETURN_TYPE get() {
                 try {
                     Response<RETURN_TYPE> resp = prov.get().execute();
-                    if (resp.isSuccess()) {
+                    if (resp.isSuccessful()) {
                         return resp.body();
                     } else {
                         throw logAndWrapIntoException(resp);
@@ -46,7 +49,7 @@ public class RetrofitHelper {
             public RETURN_TYPE get(ARG_TYPE arg) {
                 try {
                     Response<RETURN_TYPE> resp = prov.get(arg).execute();
-                    if (resp.isSuccess()) {
+                    if (resp.isSuccessful()) {
                         return resp.body();
                     } else {
                         throw logAndWrapIntoException(resp);
@@ -77,7 +80,6 @@ public class RetrofitHelper {
     private static void logError(Exception error) {
         String locMsg = error.getLocalizedMessage();
         logError(locMsg);
-//        Timber.e("Api call failed", error.getCause());
     }
 
     private static void logError(String locMsg) {
