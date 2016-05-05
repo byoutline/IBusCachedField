@@ -26,7 +26,9 @@ dependencies {
     provided 'com.squareup.retrofit2:retrofit:2.0.2'
     provided 'com.squareup.okhttp3:okhttp:3.0.1'
     provided 'com.android.databinding:baseLibrary:1.0-rc5'
+    provided files('/home/sebastian/projects/IBusCachedFieldNew/observablecachedfield/libs/binding-library-1.1.jar')
     testCompile 'com.android.databinding:baseLibrary:1.0-rc5'
+    testCompile files('/home/sebastian/projects/IBusCachedFieldNew/observablecachedfield/libs/binding-library-1.1.jar')
     testCompile 'com.google.guava:guava:18.0'
 }
 
