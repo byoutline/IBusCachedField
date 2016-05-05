@@ -25,7 +25,7 @@ public class RetrofitHelper {
             public RETURN_TYPE get() {
                 try {
                     Response<RETURN_TYPE> resp = prov.get().execute();
-                    if (resp.isSuccess()) {
+                    if (resp.isSuccessful()) {
                         return resp.body();
                     } else {
                         throw logAndWrapIntoException(resp);
@@ -46,7 +46,7 @@ public class RetrofitHelper {
             public RETURN_TYPE get(ARG_TYPE arg) {
                 try {
                     Response<RETURN_TYPE> resp = prov.get(arg).execute();
-                    if (resp.isSuccess()) {
+                    if (resp.isSuccessful()) {
                         return resp.body();
                     } else {
                         throw logAndWrapIntoException(resp);
