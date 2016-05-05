@@ -12,6 +12,9 @@ import java.io.IOException;
 
 
 /**
+ * Contains helper methods that allow for use of <code>Retrofit 2</code> with
+ * CachedField with shorter syntax.
+ *
  * @author Sebastian Kacprzak <sebastian.kacprzak at byoutline.com>
  */
 public class RetrofitHelper {
