@@ -17,7 +17,7 @@ public class ObservableCachedFieldWithArg<RETURN_TYPE, ARG_TYPE>
         extends CachedFieldWithArgImpl<RETURN_TYPE, ARG_TYPE> {
     private final ObservableField<RETURN_TYPE> observableValue;
 
-    protected ObservableCachedFieldWithArg(Provider<String> sessionIdProvider,
+    public ObservableCachedFieldWithArg(Provider<String> sessionIdProvider,
                                            ProviderWithArg<RETURN_TYPE, ARG_TYPE> valueGetter,
                                            SuccessListenerWithArg<RETURN_TYPE, ARG_TYPE> additionalSuccessListener,
                                            ErrorListenerWithArg<ARG_TYPE> additionalErrorListener,
